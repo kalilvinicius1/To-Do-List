@@ -2,6 +2,7 @@ import Task from "@/components/Task"
 import { colors } from "@/Constants/colors"
 import { useState } from "react"
 import { FlatList, Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native"
+import { GestureHandlerRootView } from "react-native-gesture-handler"
 import logo from "../assets/images/check.png"
 
 export default function RootLayout() {
@@ -21,28 +22,34 @@ export default function RootLayout() {
   }
   
   return (
-
-    <View style={style.mainContainer}>
-      <view style={style.rowContainer}>
-        <Image source={logo} style={style.image}/>
-        <Text style={style.title}>Minhas Tarefas</Text>
-      </view>
-      <view style={style.rowContainer}>
-        <TextInput  value={text} onChangeText={setText} style={style.input}/>
-        <Pressable 
-        onPress={addTask}
-        style = {({pressed}) => [style.button, {backgroundColor: pressed ? "blue" : colors.primary}]}
-        >
-          <text style={style.buttonText}>+</text>
-        </Pressable>
-      </view>
-      <view>
-        <FlatList 
-        data={tasks} 
-        renderItem={({item}) => <Task text={(item.text)} initialcompleted={item.completed}/>} 
-        />
-      </view>
-    </View> 
+    <GestureHandlerRootView>
+      <View style={style.mainContainer}>
+        <view style={style.rowContainer}>
+          <Image source={logo} style={style.image}/>
+          <Text style={style.title}>Minhas Tarefas</Text>
+        </view>
+        <view style={style.rowContainer}>
+          <TextInput  value={text} onChangeText={setText} style={style.input}/>
+          <Pressable 
+          onPress={addTask}
+          style = {({pressed}) => [style.button, {backgroundColor: pressed ? "blue" : colors.primary}]}
+          >
+            <text style={style.buttonText}>+</text>
+          </Pressable>
+        </view>
+        <view>
+          <FlatList 
+          data={tasks} 
+          renderItem={({item}) => 
+            <Task 
+            text={(item.text)} 
+            initialcompleted={item.completed}
+            deleteTask={() => setTasks(tasks.filter(t => t.id !== item.id))}
+            />} 
+          />
+        </view>
+      </View>
+    </GestureHandlerRootView> 
   )
 }
 
