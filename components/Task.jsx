@@ -27,7 +27,7 @@ function Task({text, initialcompleted, deleteTask}){
                     size={32}
                     color={completed ? colors.primary : "gray"}/>
                 </Pressable>
-                <Text >{text}</Text>
+                <Text>{text}</Text>
             </Animated.View>
         </GestureDetector>
     )
